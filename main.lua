@@ -39,8 +39,8 @@ local function fromTears(tears)
 end
 function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Passive) == true then
-		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
-			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) + 1.22 * player:GetCollectibleNum(mod.Items.Passive, true)))
+		if cacheFlag == CacheFlag.CACHE_DAMAGE then
+			player.Damage = player.Damage * 1.50 * player:GetCollectibleNum(mod.Items.Passive, true)
 		end
 	end
 	if player:HasTrinket(mod.Items.Trinket) == true then

@@ -1,0 +1,5 @@
+<costumes anm2root="gfx/characters/">
+	<costume id ="1" anm2path="passive.anm2" type="passive"/>
+	<costume id ="2" anm2path="active.anm2" type="active"/>
+	<costume id ="3" anm2path="trinket.anm2" type="trinket"/>
+</costumes>

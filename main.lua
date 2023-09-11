@@ -37,10 +37,14 @@ end
 local function fromTears(tears)
 	return math.max((30 / tears) - 1, -0.99)
 end
+
 function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Passive) == true then
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
 			player.Damage = player.Damage * 1.50 * player:GetCollectibleNum(mod.Items.Passive, true)
+		end
+		if cacheFlag == CacheFlag.CACHE_FLYING then
+			player.CanFly = true
 		end
 	end
 	if player:HasTrinket(mod.Items.Trinket) == true then

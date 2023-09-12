@@ -1,6 +1,6 @@
 ----Welcome to the "item-descriptions.lua" file! This file holds everything to do with the mod's compatibility with External Item Descriptions and Encyclopedia.
 --Startup
-local mod = RegisterMod("Commission Template - Items (Passive, Active, Trinket and Card)", 1)
+local mod = RegisterMod("Ars Goetla", 1)
 
 mod.item = {
     Passive = Isaac.GetItemIdByName("Passive Example"),

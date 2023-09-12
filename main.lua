@@ -1,10 +1,10 @@
 ----Welcome to the "main.lua" file! Here is where all the magic happens, everything from functions to callbacks are done here.
 --Startup
-local mod = RegisterMod("Sigils of Demonic Intent", 1)
+local mod = RegisterMod("Ars Goetla", 1)
 local game = Game()
 
 mod.Items = {
-    Passive = Isaac.GetItemIdByName("Lucifer Sigil"),
+    Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
     Active = Isaac.GetItemIdByName("Active Example"),
     Trinket = Isaac.GetTrinketIdByName("Trinket Example"),
     Card = Isaac.GetCardIdByName("Card Example"),
@@ -39,9 +39,9 @@ local function fromTears(tears)
 end
 
 function mod:CacheEvaluation(player, cacheFlag)
-	if player:HasCollectible(mod.Items.Passive) == true then
+	if player:HasCollectible(mod.Items.Lucifer) == true then
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
-			player.Damage = player.Damage * 1.50 * player:GetCollectibleNum(mod.Items.Passive, true)
+			player.Damage = player.Damage * 1.50 * player:GetCollectibleNum(mod.Items.Lucifer, true)
 		end
 		if cacheFlag == CacheFlag.CACHE_FLYING then
 			player.CanFly = true

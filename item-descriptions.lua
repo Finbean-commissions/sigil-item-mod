@@ -3,80 +3,35 @@
 local mod = RegisterMod("Ars Goetla", 1)
 
 mod.item = {
-    Passive = Isaac.GetItemIdByName("Passive Example"),
-    Active = Isaac.GetItemIdByName("Active Example"),
-    Trinket = Isaac.GetTrinketIdByName("Trinket Example"),
-    Card = Isaac.GetCardIdByName("Card Example"),
+    Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
 }
 
 mod.description = {
-	Passive = "{{ArrowUp}} +1.22 Fire Rate",
-	Active = "On use, spawns 1 or 2 Card Examples",
-	Trinket = "{{ArrowDown}} -0.20 Speed#{{ArrowUp}} +2 Damage",
-	Card = "Spawns 8 random hearts",
+	Lucifer = "{{ArrowUp}} +1.22 Fire Rate",
 }
 
 --External Item Descriptions documentation found here: https://github.com/wofsauge/External-Item-Descriptions/wiki.
 if EID then
-	EID:addCollectible(mod.item.Passive, mod.description.Passive)
-	EID:addCollectible(mod.item.Active, mod.description.Active)
-	EID:addTrinket(mod.item.Trinket, mod.description.Trinket)
-	EID:addCard(mod.item.Card, mod.description.Card)
+	EID:addCollectible(mod.item.Lucifer, mod.description.Lucifer)
 end
 
 --Encyclopedia documentation found here: https://github.com/AgentCucco/encyclopedia-docs/wiki.
 if Encyclopedia then
 	local Wiki = {
-		Passive = {
+		Lucifer = {
 			{ -- Description
 				{str = "description", fsize = 2, clr = 3, halign = 0},
 				{str = "+1.22 Fire Rate"},
 			},
 		},
-		Active = {
-			{ -- Description
-				{str = "description", fsize = 2, clr = 3, halign = 0},
-				{str = "On use, spawns 1 or 2 Card Examples"},
-			},
-		},
-		Trinket = {
-			{ -- Description
-				{str = "description", fsize = 2, clr = 3, halign = 0},
-				{str = "-0.20 Speed"},
-				{str = "+2 Damage"},
-			},
-		},
-		Card = {
-			{ -- Description
-				{str = "description", fsize = 2, clr = 3, halign = 0},
-				{str = "Spawns 8 random hearts"},
-			},
-		},
 	}
 
 	Encyclopedia.AddItem({
-		ID = mod.item.Passive,
-		WikiDesc = Wiki.Passive,
+		ID = mod.item.Lucifer,
+		WikiDesc = Wiki.Lucifer,
 		Pools = {
-			Encyclopedia.ItemPools.POOL_BOSS,
-			Encyclopedia.ItemPools.POOL_GREED_BOSS,
+			Encyclopedia.ItemPools.POOL_DEVIL,
+			Encyclopedia.ItemPools.POOL_GREED_DEVIL,
 		},
 	})
-	Encyclopedia.AddItem({
-		ID = mod.item.Active,
-		WikiDesc = Wiki.Active,
-		Pools = {
-			Encyclopedia.ItemPools.POOL_TREASURE,
-			Encyclopedia.ItemPools.POOL_GREED_TREASURE,
-		},
-	})
-	Encyclopedia.AddTrinket({
-		ID = mod.item.Trinket,
-		WikiDesc = Wiki.Trinket,
-	})
-	Encyclopedia.AddCard({
-		ID = mod.item.Card,
-		WikiDesc = Wiki.Card,
-		Sprite = Encyclopedia.RegisterSprite("mod.path/content/gfx/ui_cardfronts.anm2", "Card Example"),
-	  })
 end

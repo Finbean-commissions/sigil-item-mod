@@ -70,26 +70,16 @@ function mod:CacheEvaluation(player, cacheFlag)
 			player.CanFly = true
 		end
 	end
+	if player:HasCollectible(mod.Items.Satan) == true then
+		if cacheFlag == CacheFlag.CACHE_DAMAGE then
+			player.Damage = player.Damage + 5 * player:GetCollectibleNum(mod.Items.Satan, true)
+		end
+	end
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE,mod.CacheEvaluation)
 
 ----Welcome to the "item-descriptions.lua" file! This file holds everything to do with the mod's compatibility with External Item Descriptions and Encyclopedia.
 --Startup
-mod.item = {
-    Passive = Isaac.GetItemIdByName("Passive Example"),
-    Active = Isaac.GetItemIdByName("Active Example"),
-    Trinket = Isaac.GetTrinketIdByName("Trinket Example"),
-    Card = Isaac.GetCardIdByName("Card Example"),
-
-	Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
-	Mammon = Isaac.GetItemIdByName("Mammon Sigil"),
-	Satan = Isaac.GetItemIdByName("Satan Sigil"),
-	Abbadon = Isaac.GetItemIdByName("Abbadon Sigil"),
-	Asmodeus = Isaac.GetItemIdByName("Asmodeus Sigil"),
-	Belzebub = Isaac.GetItemIdByName("Beelzebub Sigil"),
-	Agares = Isaac.GetItemIdByName("Agares Sigil"),
-	Belphegor = Isaac.GetItemIdByName("Belphegor Sigil"),
-}
 
 mod.description = {
 	Passive  = "{{ArrowUp}} +1.22 Fire Rate",
@@ -109,10 +99,18 @@ mod.description = {
 
 --External Item Descriptions documentation found here: https://github.com/wofsauge/External-Item-Descriptions/wiki.
 if EID then
-	EID:addCollectible(mod.item.Passive, mod.description.Passive)
-	EID:addCollectible(mod.item.Active, mod.description.Active)
-	EID:addTrinket(mod.item.Trinket, mod.description.Trinket)
-	EID:addCard(mod.item.Card, mod.description.Card)
+	EID:addCollectible(mod.Items.Passive, mod.description.Passive)
+	EID:addCollectible(mod.Items.Active, mod.description.Active)
+	EID:addCollectible(mod.Items.Lucifer, mod.description.Lucifer)
+	EID:addCollectible(mod.Items.Mammon, mod.description.Mammon)
+	EID:addCollectible(mod.Items.Satan, mod.description.Satan)
+	EID:addCollectible(mod.Items.Abbadon, mod.description.Abbadon)
+	EID:addCollectible(mod.Items.Asmodeus, mod.description.Asmodeus)
+	EID:addCollectible(mod.Items.Belzebub, mod.description.Belzebub)
+	EID:addCollectible(mod.Items.Agares, mod.description.Agares)
+	EID:addCollectible(mod.Items.Belphego, mod.description.Belphego)
+	EID:addTrinket(mod.Items.Trinket, mod.description.Trinket)
+	EID:addCard(mod.Items.Card, mod.description.Card)
 end
 
 --Encyclopedia documentation found here: https://github.com/AgentCucco/encyclopedia-docs/wiki.
@@ -146,7 +144,7 @@ if Encyclopedia then
 	}
 
 	Encyclopedia.AddItem({
-		ID = mod.item.Passive,
+		ID = mod.Items.Passive,
 		WikiDesc = Wiki.Passive,
 		Pools = {
 			Encyclopedia.ItemPools.POOL_BOSS,
@@ -154,7 +152,7 @@ if Encyclopedia then
 		},
 	})
 	Encyclopedia.AddItem({
-		ID = mod.item.Active,
+		ID = mod.Items.Active,
 		WikiDesc = Wiki.Active,
 		Pools = {
 			Encyclopedia.ItemPools.POOL_TREASURE,
@@ -162,11 +160,11 @@ if Encyclopedia then
 		},
 	})
 	Encyclopedia.AddTrinket({
-		ID = mod.item.Trinket,
+		ID = mod.Items.Trinket,
 		WikiDesc = Wiki.Trinket,
 	})
 	Encyclopedia.AddCard({
-		ID = mod.item.Card,
+		ID = mod.Items.Card,
 		WikiDesc = Wiki.Card,
 		Sprite = Encyclopedia.RegisterSprite("mod.path/content/gfx/ui_cardfronts.anm2", "Card Example"),
 	  })

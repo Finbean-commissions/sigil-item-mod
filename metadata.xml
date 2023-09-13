@@ -1,7 +1,8 @@
 <metadata>
-	<name>Ars Goetla Mod</name>
-	<directory>sigil-item-mod</directory>
+	<name>commission-template-item</name>
+	<directory>commission-template-item</directory>
 	<description/>
 	<version>1.0</version>
 	<visibility/>
 </metadata>
+

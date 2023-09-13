@@ -2,4 +2,13 @@
 	<passive id="1" name="Passive Example" description="an example of a passive item" gfx="passive.png" cache="firedelay" quality="2"/>
 	<active id="2" name="Active Example" description="an example of an active item" gfx="active.png" maxcharges="4" quality="2"/>
 	<trinket id="3" name="Trinket Example" description="an example of a trinket" gfx="trinket.png" cache="speed damage" quality="2"/>
+
+	<passive id="11" name="Lucifer Sigil" description="Flight + DMG up!!!" gfx="lucifer.png" cache="damage flying" quality="4"/>
+	<passive id="12" name="Mammon Sigil" description="Cobweb tears" gfx="mammon.png" quality="3"/>
+	<passive id="13" name="Satan Sigil" description="Devil up" gfx="satan.png" cache="damage" quality="4"/>
+	<passive id="14" name="Abbadon Sigil" description="From foe to friend" gfx="abbadon.png" quality="3"/>
+	<passive id="15" name="Asmodeus Sigil" description="Let's take a step back..." gfx="asmodeus.png" quality="3"/>
+	<passive id="16" name="Beelzebub Sigil" description="Become the lord of the flies" gfx="lucifer.png" quality="4"/>
+	<passive id="17" name="Agares Sigil" description="Feel the chill." gfx="mammon.png" quality="2"/>
+	<passive id="18" name="Belphegor Sigil" description="Ultimate power!!!" gfx="satan.png" quality="4"/>
 </items>

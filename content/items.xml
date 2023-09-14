@@ -4,7 +4,7 @@
 	<passive id="13" name="Satan Sigil" description="Devil up" gfx="satan.png" cache="damage" quality="4"/>
 	<passive id="14" name="Abbadon Sigil" description="From foe to friend" gfx="abbadon.png" quality="3"/>
 	<passive id="15" name="Asmodeus Sigil" description="Let's take a step back..." gfx="asmodeus.png" quality="3"/>
-	<passive id="16" name="Beelzebub Sigil" description="Become the lord of the flies" gfx="belzebub.png" quality="4"/>
+	<passive id="16" name="Beelzebub Sigil" description="Become the lord of the flies" gfx="belzebub.png" cache="color tearflag" quality="4"/>
 	<passive id="17" name="Agares Sigil" description="Feel the chill." gfx="agares.png" quality="2"/>
 	<passive id="18" name="Belphegor Sigil" description="Ultimate power!!!" gfx="belphegor.png" quality="4"/>
 </items>

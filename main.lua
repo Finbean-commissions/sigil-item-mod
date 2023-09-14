@@ -1,6 +1,6 @@
 ----Welcome to the "main.lua" file! Here is where all the magic happens, everything from functions to callbacks are done here.
 --Startup
-local mod = RegisterMod("Commission Template - Items (Passive, Active, Trinket and Card)", 1)
+local mod = RegisterMod("Ars Goetla", 1)
 
 local callbacks = {}    ---@type table<InventoryCallback, table<CollectibleType, function[]>>
 local trackedItems = {} ---@type CollectibleType[]
@@ -266,6 +266,14 @@ end)
 
 
 
+local asmodeus_teleport = 0
+local belphelgor_stats = {
+    damage = 0,
+    damage_stack = 0,
+    tears = 0,
+    tears_stack = 0,
+    add = 0,
+}
 
 local game = Game()
 local room = game:GetRoom()
@@ -290,7 +298,7 @@ local function fromTears(tears)
 	return math.max((30 / tears) - 1, -0.99)
 end
 
---Lucifer, Mammon, Satan
+--Lucifer, Mammon, Satan, Belzebub, Belphelgor
 function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Lucifer) == true then
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
@@ -313,29 +321,72 @@ function mod:CacheEvaluation(player, cacheFlag)
 			player.Damage = player.Damage + 5 * player:GetCollectibleNum(mod.Items.Satan, true)
 		end
 	end
+	if player:HasCollectible(mod.Items.Belzebub) == true then
+		if cacheFlag == CacheFlag.CACHE_COLOR then
+			player.Color = Color(73/255, 133/255, 41/255, 1.0, 0/255, 0/255, 0/255)
+		end
+		if cacheFlag == CacheFlag.CACHE_TEARFLAG then
+			player.TearFlags = player.TearFlags | TearFlags.TEAR_POISON | TearFlags.TEAR_ACID
+		end
+	end
+	if player:HasCollectible(mod.Items.Belphegor) == true then
+		if cacheFlag == CacheFlag.CACHE_DAMAGE then
+			player.Damage = player.Damage + 10 * belphelgor_stats.damage_stack
+		end
+		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) + 3 * belphelgor_stats.tears_stack))
+		end
+	end
 end
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE,mod.CacheEvaluation)
 
-function mod:Death(entity)
+function mod:Death(victim)
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
 		if player:HasCollectible(mod.Items.Mammon) == true then
-			if entity:IsVulnerableEnemy() == true then
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, entity.Position, Vector(0,0), nil)
+			if victim:IsVulnerableEnemy() == true then
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, victim.Position, Vector(0,0), nil)
 			end
 		end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH,mod.Death)
 
+--Asmodeus, Belphelgor
+function mod:NewRun(IsContinued)
+    if IsContinued == false then
+        asmodeus_teleport = 0
+        belphelgor_stats.damage = 0
+        belphelgor_stats.damage_stack = 0
+        belphelgor_stats.tears = 0
+        belphelgor_stats.tears_stack = 0
+        belphelgor_stats.add = 0
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.NewRun)
 
---Satan
+--Satan, Asmodeus, Belphelgor
 function mod:NewLevel()
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
 
+        asmodeus_teleport = 0
+
 		if player:HasCollectible(mod.Items.Satan) == true then
 			room:TrySpawnDevilRoomDoor(true, true)
+		end
+		if player:HasCollectible(mod.Items.Belphegor) == true then
+			belphelgor_stats.add = math.random(1,2)
+            if belphelgor_stats.add == 1 then
+                belphelgor_stats.damage_stack = belphelgor_stats.damage_stack + 1
+                player:AddCacheFlags(CacheFlag.CACHE_ALL)
+                player:EvaluateItems()
+            end
+            if belphelgor_stats.add == 2 then
+                belphelgor_stats.tears_stack = belphelgor_stats.tears_stack + 1
+                player:AddCacheFlags(CacheFlag.CACHE_ALL)
+                player:EvaluateItems()
+            end
 		end
 	end
 end
@@ -352,7 +403,7 @@ itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player,
     end
 end, mod.Items.Abbadon)
 
---Abbadon
+--Abbadon, Asmodeus
 function mod:Damage(victim)
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
@@ -361,26 +412,63 @@ function mod:Damage(victim)
 			if victim:IsVulnerableEnemy() == true then
 				if victim:IsBoss() == false then
 					if math.random(1,20) == 1 then
-					local abbadon_gaper = Isaac.Spawn(EntityType.ENTITY_GAPER, 0, 0, player.Position, Vector(0,0), nil)
-					abbadon_gaper:AddCharmed(EntityRef(player), -1)
+                        local abbadon_gaper = Isaac.Spawn(EntityType.ENTITY_GAPER, 0, 0, player.Position, Vector(0,0), nil)
+                        abbadon_gaper:AddCharmed(EntityRef(player), -1)
 					end
 				end
 			end
 		end
+        if victim.Type == player.Type then
+            asmodeus_teleport = asmodeus_teleport + 1
+		    if player:HasCollectible(mod.Items.Asmodeus) == true then
+                if asmodeus_teleport == 1 then
+                    player:UseActiveItem(CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS, UseFlag.USE_NOANIM)
+                end
+            end
+		end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,mod.Damage)
+
+--Agares
+function mod:Collison(player, offender)
+    if player:HasCollectible(mod.Items.Agares) == true then
+        if offender:IsVulnerableEnemy() == true then
+            if offender:IsBoss() == false then
+                if math.random(1,10) == 1 then
+                    offender:AddEntityFlags(EntityFlag.FLAG_ICE_FROZEN)
+                end
+            end
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION, mod.Collison)
+
+--Belzebub
+itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player, item, count, touched, fromQueue)
+    if not touched or not fromQueue then
+        for i=1,count do
+            local pos = Game():GetRoom():FindFreePickupSpawnPosition(player.Position, 0, true)
+            player:AddCollectible(CollectibleType.COLLECTIBLE_HALO_OF_FLIES, 0, true)
+            player:AddCollectible(CollectibleType.COLLECTIBLE_HALO_OF_FLIES, 0, true)
+            player:AddCollectible(CollectibleType.COLLECTIBLE_HALO_OF_FLIES, 0, true)
+            player:RemoveCollectible(CollectibleType.COLLECTIBLE_HALO_OF_FLIES, false, 0, false)
+            player:RemoveCollectible(CollectibleType.COLLECTIBLE_HALO_OF_FLIES, false, 0, false)
+            player:RemoveCollectible(CollectibleType.COLLECTIBLE_HALO_OF_FLIES, false, 0, false)
+        end
+    end
+end, mod.Items.Belzebub)
 
 ----Welcome to the Item Descriptions. This section holds everything to do with the mod's compatibility with External Item Descriptions and Encyclopedia.
 --Startup
 
 mod.description = {
 	Lucifer  = "Flight#{{ArrowUp}} 1.5x Damage multiplier",
-	Mammon   = "Cobweb tears that slow enemies#Enemies drop one coin upon death",
+	Mammon   = "Pink cobweb tears that slow enemies#Enemies drop a coin upon death",
 	Satan    = "{{ArrowUp}} +5 Damage#Spawns the {{DevilRoom}} Devil Room door in the first room of every floor",
-	Abbadon  = "Drops two {{Card78}} Cracked Keys#5% chance to  spawn a friendly Gaper when hitting an enemy",
+	Abbadon  = "Drops two {{Card78}} Cracked Keys#5% chance to spawn a friendly Gaper when hitting an enemy",
 	Asmodeus = "{{ArrowUp}} MAX Speed#The first time you get hit on a floor, teleports you to the previous room.",
-	Belzebub = "Gain the Beelzebub transformation#Poison tears",
+	Belzebub = "Gain the Beelzebub transformation#Poison and acid tears",
 	Agares   = "Upon taking contact damage, there is a 10% chance to freeze the enemy",
 	Belphegor = "Upon entering a new floor, gain either {{ArrowUp}} +10 Damage or {{ArrowUp}} +3 Tears",
 }

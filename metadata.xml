@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<name>Ars Goetla</name>
-	<directory>sigil-item-mod</directory>
-	<description>This is a commission I made for tx_soul on Fiverr / -Item Mod -Extra Item Mod x1
+    <name>Ars Goetla</name>
+    <directory>sigil-item-mod</directory>
+    <id>3035735749</id>
+    <description>This is a commission I made for tx_soul on Fiverr / -Item Mod -Extra Item Mod x1
 Items:
 	Lucifer Sigil - Flight / 1.5x damage multiplier
 	Mammon Sigil - Pink cobweb tears that slow enemies / Enemies drop a coin upon death
@@ -15,6 +17,8 @@ Items:
 Credits:
 	Oatmealine - Firerate to Tears function
 	TheCatWizard - Item pickup callback</description>
-	<version>1.0</version>
-	<visibility></visibility>
+    <version>1.2</version>
+    <visibility>Public</visibility>
+    <tag id="Lua"/>
+    <tag id="Items"/>
 </metadata>

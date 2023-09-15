@@ -1,2 +1,22 @@
 <ItemPools>
+	<Pool Name="devil">
+		<Item Name="Lucifer Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Mammon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Satan Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Abbadon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Asmodeus Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Beelzebub Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Agares Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Belphegor Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+	<Pool Name="greedDevil">
+		<Item Name="Lucifer Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Mammon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Satan Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Abbadon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Asmodeus Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Beelzebub Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Agares Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Belphegor Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
 </ItemPools>

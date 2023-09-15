@@ -1,10 +1,10 @@
-<items gfxroot="gfx/items/" version="1">
-	<passive id="11" name="Lucifer Sigil" description="Flight + DMG up!!!" gfx="lucifer.png" cache="damage flying" quality="4"/>
-	<passive id="12" name="Mammon Sigil" description="Cobweb tears" gfx="mammon.png" cache="tearcolor tearflag" quality="3"/>
-	<passive id="13" name="Satan Sigil" description="Devil up" gfx="satan.png" cache="damage" quality="4"/>
-	<passive id="14" name="Abbadon Sigil" description="From foe to friend" gfx="abbadon.png" quality="3"/>
-	<passive id="15" name="Asmodeus Sigil" description="Let's take a step back..." gfx="asmodeus.png" quality="3"/>
-	<passive id="16" name="Beelzebub Sigil" description="Become the lord of the flies" gfx="belzebub.png" cache="color tearflag" quality="4"/>
-	<passive id="17" name="Agares Sigil" description="Feel the chill." gfx="agares.png" quality="2"/>
-	<passive id="18" name="Belphegor Sigil" description="Ultimate power!!!" gfx="belphegor.png" quality="4"/>
+<items gfxroot="gfx/items/" deathanm2="gfx/death items.anm2" version="1">
+	<passive id="1" name="Lucifer Sigil" description="Flight + DMG up!!!" gfx="lucifer.png" cache="damage flying" quality="4"/>
+	<passive id="2" name="Mammon Sigil" description="Cobweb tears" gfx="mammon.png" cache="tearcolor tearflag" quality="3"/>
+	<passive id="3" name="Satan Sigil" description="Devil up" gfx="satan.png" cache="damage" quality="4"/>
+	<passive id="4" name="Abbadon Sigil" description="From foe to friend" gfx="abbadon.png" quality="3"/>
+	<passive id="5" name="Asmodeus Sigil" description="Let's take a step back..." gfx="asmodeus.png" quality="3"/>
+	<passive id="6" name="Beelzebub Sigil" description="Become the lord of the flies" gfx="belzebub.png" cache="color tearflag" quality="4"/>
+	<passive id="7" name="Agares Sigil" description="Feel the chill." gfx="agares.png" quality="2"/>
+	<passive id="8" name="Belphegor Sigil" description="Ultimate power!!!" gfx="belphegor.png" quality="4"/>
 </items>

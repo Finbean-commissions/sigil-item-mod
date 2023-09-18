@@ -278,9 +278,9 @@ local belphelgor_stats = {
 local game = Game()
 local room = game:GetRoom()
 local level = game:GetLevel()
+local tear_count_room = 0
 
 mod.Items = {
-
 	Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
 	Mammon = Isaac.GetItemIdByName("Mammon Sigil"),
 	Satan = Isaac.GetItemIdByName("Satan Sigil"),
@@ -289,6 +289,23 @@ mod.Items = {
 	Belzebub = Isaac.GetItemIdByName("Beelzebub Sigil"),
 	Agares = Isaac.GetItemIdByName("Agares Sigil"),
 	Belphegor = Isaac.GetItemIdByName("Belphegor Sigil"),
+
+    Bael = Isaac.GetItemIdByName("Bael Sigil"),
+    Vassago = Isaac.GetItemIdByName("Vassago Sigil"),
+    Samigina = Isaac.GetItemIdByName("Samigina Sigil"),
+    Marbas  = Isaac.GetItemIdByName("Marbas Sigil"),
+    Valefor = Isaac.GetItemIdByName("Valefor Sigil"),
+    Amon = Isaac.GetItemIdByName("Amon Sigil"),
+    Barbatos = Isaac.GetItemIdByName("Barbatos Sigil"),
+    Paimon  = Isaac.GetItemIdByName("Paimon Sigil"),
+    Buer = Isaac.GetItemIdByName("Buer Sigil"),
+    Gusion  = Isaac.GetItemIdByName("Gusion Sigil"),
+    Sitri = Isaac.GetItemIdByName("Sitri Sigil"),
+    Beleth  = Isaac.GetItemIdByName("Beleth Sigil"),
+    Leraje  = Isaac.GetItemIdByName("Leraje Sigil"),
+    Eligos  = Isaac.GetItemIdByName("Eligos Sigil"),
+    Zepar = Isaac.GetItemIdByName("Zepar Sigil"),
+    Botis = Isaac.GetItemIdByName("Botis Sigil"),
 }
 
 local function toTears(fireDelay) --thanks oat for the cool functions for calculating firerate
@@ -298,7 +315,18 @@ local function fromTears(tears)
 	return math.max((30 / tears) - 1, -0.99)
 end
 
---Lucifer, Mammon, Satan, Belzebub, Belphelgor
+local DirectionToVector = {
+    [Direction.DOWN] = Vector(0, 1),
+    [Direction.LEFT] = Vector(-1, 0),
+    [Direction.RIGHT] = Vector(1, 0),
+    [Direction.UP] = Vector(0, -1),
+    [Direction.NO_DIRECTION] = Vector(0, 0)
+}
+function mod:DirectionToVector(dir, length)
+    return DirectionToVector[dir]:Resized(length)
+end
+
+--Lucifer, Mammon, Satan, Belzebub, Belphelgor, Vassago, Samigina
 function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Lucifer) == true then
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
@@ -335,6 +363,26 @@ function mod:CacheEvaluation(player, cacheFlag)
 		end
 		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
 			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) + 3 * belphelgor_stats.tears_stack))
+		end
+	end
+    if player:HasCollectible(mod.Items.Vassago) == true then
+		if cacheFlag == CacheFlag.CACHE_SPEED then
+			player.MoveSpeed = player.MoveSpeed + 0.5 * player:GetCollectibleNum(mod.Items.Vassago, true)
+		end
+	end
+    if player:HasCollectible(mod.Items.Samigina) == true then
+		if cacheFlag == CacheFlag.CACHE_FLYING then
+			player.CanFly = true
+		end
+	end
+	if player:HasCollectible(mod.Items.Valefor) == true then
+		if cacheFlag == CacheFlag.CACHE_TEARFLAG then
+			player.TearFlags = player.TearFlags | TearFlags.TEAR_MAGNETIZE | TearFlags.TEAR_ATTRACTOR
+		end
+	end
+	if player:HasCollectible(mod.Items.Barbatos) == true then
+		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) / 2))
 		end
 	end
 end
@@ -430,7 +478,7 @@ function mod:Damage(victim)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,mod.Damage)
 
---Agares
+--Agares, Vassago
 function mod:Collison(player, offender)
     if player:HasCollectible(mod.Items.Agares) == true then
         if offender:IsVulnerableEnemy() == true then
@@ -439,6 +487,11 @@ function mod:Collison(player, offender)
                     offender:AddEntityFlags(EntityFlag.FLAG_ICE_FROZEN)
                 end
             end
+        end
+    end
+    if player:HasCollectible(mod.Items.Vassago) == true then
+        if offender:IsVulnerableEnemy() == true then
+            offender:AddBurn(EntityRef(player), 33, 1)
         end
     end
 end
@@ -458,6 +511,89 @@ itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player,
         end
     end
 end, mod.Items.Belzebub)
+
+--Bael
+function mod:NewRoom()
+	for playerNum = 1, game:GetNumPlayers() do
+        local player = game:GetPlayer(playerNum)
+        local tempEffects = player:GetEffects()
+
+        tear_count_room = 0
+
+        if player:HasCollectible(mod.Items.Bael) == true then
+
+            tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_CAMO_UNDIES, false, 1)
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,mod.NewRoom)
+
+--Bael
+function mod:Tear(tear)
+	for playerNum = 1, game:GetNumPlayers() do
+        local player = game:GetPlayer(playerNum)
+
+        if player:HasCollectible(mod.Items.Bael) == true and tear_count_room == 0 then
+            tear:AddTearFlags(TearFlags.TEAR_LIGHT_FROM_HEAVEN)
+            tear.Color = Color(255/255, 255/255, 255/255, 1.0, 255/255, 0/255, 0/255)
+
+            tear_count_room = 1
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.Tear)
+
+--Samigina, Amon
+function mod:PercUpdate(player)
+    if player:IsFrame(10, 0) then
+        if player:HasCollectible(mod.Items.Samigina) == true and math.random(1,15) == 1 then
+            player:FireTechLaser(player.Position, 1, mod:DirectionToVector(player:GetHeadDirection(), 1), false, false, nil, 0.75)
+            local samigina_tear = player:FireTear(player.Position, mod:DirectionToVector(player:GetHeadDirection(), player.ShotSpeed*10), true, true, false, nil, 1.25):ToTear()
+            samigina_tear:AddTearFlags(TearFlags.TEAR_SHIELDED | TearFlags.TEAR_LASER | TearFlags.TEAR_ATTRACTOR)
+            samigina_tear.Color = Color(0/255, 50/255, 50/255, 1.0, 155/255, 0/255, 0/255)
+            samigina_tear:Update()
+        end
+        if player:HasCollectible(mod.Items.Amon) == true and math.random(1,15) == 1 then
+            local amon_flame = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, player.Position, mod:DirectionToVector(player:GetHeadDirection(), player.ShotSpeed*10), nil)
+            amon_flame.Color = Color(0/255, 0/255, 0/255, 1.0, 132/255, 33/255, 189/255)
+            amon_flame.CollisionDamage = player.Damage
+            amon_flame:Update()
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.PercUpdate)
+
+--Marbas
+function mod:TearCollide(tear, victim)
+	for playerNum = 1, game:GetNumPlayers() do
+        local player = game:GetPlayer(playerNum)
+
+        if player:HasCollectible(mod.Items.Marbas) == true and math.random(1,100) then
+            if victim:IsVulnerableEnemy() == true and victim.Type ~= EntityType.ENTITY_FLY then
+                if victim:IsBoss() == false then
+                    victim:ToNPC():Morph(EntityType.ENTITY_FLY, 0, 0, 0)
+                    Isaac.Spawn(EntityType.ENTITY_FLY, 0, 0, victim.Position, Vector(0,0), nil)
+                end
+            end
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, mod.TearCollide)
+
+--Valefor
+itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player, item, count, touched, fromQueue)
+    if not touched or not fromQueue then
+        for i=1,count do
+            local pos = Game():GetRoom():FindFreePickupSpawnPosition(player.Position, 0, true)
+
+            local valefor_whipper = Isaac.Spawn(EntityType.ENTITY_WHIPPER, 0, 0, player.Position, Vector(0,0), nil):ToNPC()
+            valefor_whipper:AddCharmed(EntityRef(player), -1)
+            valefor_whipper.MaxHitPoints = 9999999999
+            valefor_whipper.HitPoints = 9999999999
+            valefor_whipper:Update()
+        end
+    end
+end, mod.Items.Valefor)
 
 ----Welcome to the Item Descriptions. This section holds everything to do with the mod's compatibility with External Item Descriptions and Encyclopedia.
 --Startup

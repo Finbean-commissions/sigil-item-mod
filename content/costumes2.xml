@@ -6,4 +6,8 @@
 	<costume id ="6" anm2path="asmodeus.anm2" priority="2" type="passive"/>
 	<costume id ="7" anm2path="agares.anm2" priority="1" type="passive"/>
 	<costume id ="8" anm2path="belphegor.anm2" priority="2" type="passive"/>
+
+	<costume id ="9" anm2path="bael.anm2" priority="3" type="passive"/>
+	<costume id ="10" anm2path="vassago.anm2" priority="1" type="passive"/>
+	<costume id ="11" anm2path="samigina.anm2" priority="2" isFlying="true" type="passive"/>
 </costumes>

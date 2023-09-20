@@ -17,11 +17,11 @@
 	<passive id="15" name="Barbatos Sigil" description="Tears down + revenge crow" gfx="barbatos.png" cache="firedelay tearflag" quality="4" devilprice="2"/>
 	<passive id="16" name="Paimon Sigil" description="X-ray vision + Immortal shady-friends" gfx="paimon.png" quality="4" devilprice="2"/>
 	<passive id="17" name="Buer Sigil" description="HP + speed + tears up + range down" gfx="buer.png" maxhearts="2" hearts="2" cache="speed firedelay range" quality="2" devilprice="2"/>
-	<passive id="18" name="Gusion Sigil" description="HP + tears up + spiky tears" gfx="gusion.png" maxhearts="2" hearts="2" cache="firedelay tearflag tearcolor" quality="3" devilprice="2"/>
+	<passive id="18" name="Gusion Sigil" description="HP + tears up + shock tears" gfx="gusion.png" maxhearts="2" hearts="2" cache="firedelay tearflag tearcolor" quality="3" devilprice="2"/>
 	<passive id="19" name="Sitri Sigil" description="Party tears" gfx="sitri.png" cache="flying" quality="3" devilprice="2"/>
-	<passive id="20" name="Beleth Sigil" description="Born to bleed" gfx="beleth.png" cache="tearflag" quality="4" devilprice="2"/>
+	<passive id="20" name="Beleth Sigil" description="Pale blood beam" gfx="beleth.png" cache="tearflag" quality="4" devilprice="2"/>
 	<passive id="21" name="Leraje Sigil" description="Piercing + poison-creep tears" gfx="leraje.png" cache="tearflag" quality="3" devilprice="2"/>
-	<passive id="22" name="Eligos Sigil" description="Summon a ring of spears" gfx="eligos.png" quality="2" devilprice="2"/>
+	<passive id="22" name="Eligos Sigil" description="Head-start" gfx="eligos.png" quality="2" devilprice="2"/>
 	<passive id="23" name="Zepar Sigil" description="Stay back!" gfx="zepar.png" quality="2" devilprice="1"/>
-	<passive id="24" name="Botis Sigil" description="Size up + whip tears" gfx="botis.png" cache="size tearflag weapon" quality="3" devilprice="2"/>
+	<passive id="24" name="Botis Sigil" description="Size up + sword tears" gfx="botis.png" cache="size" quality="3" devilprice="2"/>
 </items>

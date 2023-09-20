@@ -18,4 +18,9 @@
 	<costume id ="17" anm2path="buer.anm2" priority="5" type="passive"/>
 	<costume id ="18" anm2path="gusion.anm2" priority="1" type="passive"/>
 	<costume id ="19" anm2path="sitri.anm2" priority="2" isFlying="true" type="passive"/>
+	<costume id ="20" anm2path="beleth.anm2" priority="3" type="passive"/>
+	<costume id ="21" anm2path="leraje.anm2" priority="5" skinColor="4" overwriteColor="true" forceHeadColor="true" forceBodyColor="true" type="passive"/>
+	<costume id ="22" anm2path="eligos.anm2" priority="1" type="passive"/>
+	<costume id ="23" anm2path="zepar.anm2" priority="2" type="passive"/>
+	<costume id ="24" anm2path="botis.anm2" priority="1" type="passive"/>
 </costumes>

@@ -8,6 +8,23 @@
         <Item Name="Beelzebub Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
         <Item Name="Agares Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
         <Item Name="Belphegor Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Bael Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Vassago Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Samigin Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Marbas Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Valefor Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Amon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Barbato Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Paimon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Buer Siigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Gusion Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Sitri Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Beleth Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Leraje Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Eligos Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Zepar Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Botis Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        
 	</Pool>
 	<Pool Name="greedDevil">
 		<Item Name="Lucifer Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -18,5 +35,21 @@
         <Item Name="Beelzebub Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
         <Item Name="Agares Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
         <Item Name="Belphegor Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Bael Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Vassago Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Samigin Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Marbas Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Valefor Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Amon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Barbato Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Paimon Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Buer Siigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Gusion Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Sitri Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Beleth Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Leraje Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Eligos Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Zepar Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+        <Item Name="Botis Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 </ItemPools>

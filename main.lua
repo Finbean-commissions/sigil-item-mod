@@ -281,6 +281,7 @@ local level = game:GetLevel()
 local itempool = game:GetItemPool()
 local tear_count_room = 0
 local beleth_brimstone = 0
+local eligos_tear_ring = 0
 
 mod.Items = {
 	Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
@@ -420,6 +421,11 @@ function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Leraje) == true then
 		if cacheFlag == CacheFlag.CACHE_TEARFLAG then
             player.TearFlags = player.TearFlags | TearFlags.TEAR_PIERCING | TearFlags.TEAR_MYSTERIOUS_LIQUID_CREEP
+		end
+	end
+	if player:HasCollectible(mod.Items.Botis) == true then
+		if cacheFlag == CacheFlag.CACHE_SIZE then
+            player.SpriteScale = player.SpriteScale + Vector(0.25,0.25)
 		end
 	end
 end
@@ -569,6 +575,7 @@ function mod:NewRoom()
 
         tear_count_room = 0
         beleth_brimstone = 0
+        eligos_tear_ring = 6
 
         if player:HasCollectible(mod.Items.Bael) == true then
 
@@ -600,6 +607,21 @@ function mod:Tear(tear)
                 beleth_brimstone_fire.Color = Color(255/255, 255/255, 255/255, 1.0, 100/255, 255/255, 255/255)
                 beleth_brimstone = 0
             end
+        end
+        if player:HasCollectible(mod.Items.Eligos) == true then
+            if eligos_tear_ring > 0 then
+                for i=10,1,-1 do
+                    local eligos_tear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, player.Position, RandomVector()*player.ShotSpeed*10, nil):ToTear()
+                    eligos_tear:ChangeVariant(TearVariant.NAIL)
+                    eligos_tear.Color = Color(177/255, 177/255, 177/255, 1.0, 255/255, 255/255, 0/255)
+
+                    eligos_tear_ring = eligos_tear_ring - 1
+                end
+            end
+        end
+        if player:HasCollectible(mod.Items.Botis) == true then
+            tear:ChangeVariant(TearVariant.SWORD_BEAM)
+            tear.Color = Color(255/255, 0/255, 255/255, 1.0, 0/255, 255/255, 0/255)
         end
     end
 end
@@ -674,6 +696,9 @@ function mod:TearCollide(tear, victim)
                     pink_cloud.Color = Color(180/255, 180/255, 180/255, 1.0, 296/255, 52/255, 91/255)
                 end
             end
+        end
+        if player:HasCollectible(mod.Items.Botis) == true then
+            tear.CollisionDamage = tear.CollisionDamage + 1 * tear.FrameCount
         end
     end
 end

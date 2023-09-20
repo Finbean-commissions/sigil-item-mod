@@ -546,6 +546,9 @@ function mod:Collison(player, offender)
             if math.random(1,10) == 1 then
                 local zepar_tear = player:FireTear(offender.Position, Vector.Zero, true, true, false, nil, 0):ToTear()
                 zepar_tear:AddTearFlags(TearFlags.TEAR_PUNCH)
+                
+                local tempEffects = player:GetEffects()
+                tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_SPEED_BALL, false, 1)
             end
         end
     end
@@ -579,6 +582,7 @@ function mod:NewRoom()
 
         if player:HasCollectible(mod.Items.Bael) == true then
 
+            local tempEffects = player:GetEffects()
             tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_CAMO_UNDIES, false, 1)
         end
     end
@@ -755,6 +759,22 @@ mod.description = {
 	Belzebub = "Gain the Beelzebub transformation#Poison and acid tears",
 	Agares   = "Upon taking contact damage, there is a 10% chance to freeze the enemy",
 	Belphegor = "Upon entering a new floor, gain either {{ArrowUp}} +10 Damage or {{ArrowUp}} +3 Tears",
+    Bael = "Upon entering a new room, turn invisible#The first tear you shoot in a room will be a holy light tear",
+    Vassago = "{{ArrowUp}} +0.5 Speed#Burn enemies on contact",
+    Samigina = "Flight#Sometimes fire a laser tear",
+    Marbas = "Rarely turns a hit enemy into a fly",
+    Valefor = "Magnetic tears#Spawn a friendly immortal Whipper",
+    Amon = "Often fire a purple flame that rarely charms enemies",
+    Barbatos = "{{ArrowDown}} -50% Firerate#Sometimes fire a bullet tear that kills the enemy hit instantly#When first hit in a room, summon a Dead Bird",
+    Paimon = "Reveals secret rooms#Spawns two friendly immortal Shadies#Spawns a random devil room item",
+    Buer = "{{ArrowUp}} +1 Red heart#{{ArrowUp}} +0.4 Speed#{{ArrowUp}} +0.4 Tears# {{ArrowDown}} -3 Range",
+    Gusion  = "{{ArrowUp}} +1 Red heart#{{ArrowUp}} +0.2 Tears#Tears now stun enemies for 5 seconds",
+    Sitri = "Flight#Sometimes fire charming tears that explode into a pink cloud",
+    Beleth  = "Fire a white brimstone laser for every 10 tears you fire",
+    Leraje = "Piercing tears#Tears leave poison creep",
+    Eligos = "First time you shoot in a room, fire random spear tears",
+    Zepar = "Sometimes when hit, knock enemies back#{{ArrowUp}} +0.3 Speed for the room when damaged",
+    Botis = "Fire sword/snake tears that increase damage the longer their distance",
 }
 
 --External Item Descriptions documentation found here: https://github.com/wofsauge/External-Item-Descriptions/wiki.

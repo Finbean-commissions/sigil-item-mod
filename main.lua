@@ -278,7 +278,9 @@ local belphelgor_stats = {
 local game = Game()
 local room = game:GetRoom()
 local level = game:GetLevel()
+local itempool = game:GetItemPool()
 local tear_count_room = 0
+local beleth_brimstone = 0
 
 mod.Items = {
 	Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
@@ -326,7 +328,7 @@ function mod:DirectionToVector(dir, length)
     return DirectionToVector[dir]:Resized(length)
 end
 
---Lucifer, Mammon, Satan, Belzebub, Belphelgor, Vassago, Samigina
+--Lucifer, Mammon, Satan, Belzebub, Belphelgor, Vassago, Samigina, Valefor, Barbatos, Buer
 function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Lucifer) == true then
 		if cacheFlag == CacheFlag.CACHE_DAMAGE then
@@ -383,6 +385,41 @@ function mod:CacheEvaluation(player, cacheFlag)
 	if player:HasCollectible(mod.Items.Barbatos) == true then
 		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
 			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) / 2))
+		end
+		if cacheFlag == CacheFlag.CACHE_TEARFLAG then
+			player.TearFlags = player.TearFlags | TearFlags.TEAR_PIERCING
+		end
+	end
+	if player:HasCollectible(mod.Items.Buer) == true then
+		if cacheFlag == CacheFlag.CACHE_SPEED then
+			player.MoveSpeed = player.MoveSpeed + 0.4 * player:GetCollectibleNum(mod.Items.Buer, true)
+		end
+		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) + 0.4 * player:GetCollectibleNum(mod.Items.Buer, true)))
+		end
+		if cacheFlag == CacheFlag.CACHE_RANGE then
+			player.TearRange = player.TearRange - 3 * 40
+		end
+	end
+	if player:HasCollectible(mod.Items.Gusion) == true then
+		if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+			player.MaxFireDelay = math.max(1.0, fromTears(toTears(player.MaxFireDelay) + 0.2 * player:GetCollectibleNum(mod.Items.Gusion, true)))
+		end
+		if cacheFlag == CacheFlag.CACHE_TEARFLAG then
+			player.TearFlags = player.TearFlags | TearFlags.TEAR_PIERCING | TearFlags.TEAR_SLOW
+		end
+        if cacheFlag == CacheFlag.CACHE_TEARCOLOR then
+			player.TearColor = Color(86/255, 113/255, 128/255, 1.0, 169/255, 142/255, 127/255)
+		end
+	end
+    if player:HasCollectible(mod.Items.Sitri) == true then
+		if cacheFlag == CacheFlag.CACHE_FLYING then
+			player.CanFly = true
+		end
+	end
+	if player:HasCollectible(mod.Items.Leraje) == true then
+		if cacheFlag == CacheFlag.CACHE_TEARFLAG then
+            player.TearFlags = player.TearFlags | TearFlags.TEAR_PIERCING | TearFlags.TEAR_MYSTERIOUS_LIQUID_CREEP
 		end
 	end
 end
@@ -451,7 +488,7 @@ itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player,
     end
 end, mod.Items.Abbadon)
 
---Abbadon, Asmodeus
+--Abbadon, Asmodeus, Barbatos
 function mod:Damage(victim)
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
@@ -473,12 +510,16 @@ function mod:Damage(victim)
                     player:UseActiveItem(CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS, UseFlag.USE_NOANIM)
                 end
             end
+		    if player:HasCollectible(mod.Items.Barbatos) == true then
+                local tempEffects = player:GetEffects()
+                local barbatos_bird = tempEffects:AddCollectibleEffect(CollectibleType.COLLECTIBLE_DEAD_BIRD, false, 1)
+            end
 		end
 	end
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG,mod.Damage)
 
---Agares, Vassago
+--Agares, Vassago, Zepar
 function mod:Collison(player, offender)
     if player:HasCollectible(mod.Items.Agares) == true then
         if offender:IsVulnerableEnemy() == true then
@@ -492,6 +533,14 @@ function mod:Collison(player, offender)
     if player:HasCollectible(mod.Items.Vassago) == true then
         if offender:IsVulnerableEnemy() == true then
             offender:AddBurn(EntityRef(player), 33, 1)
+        end
+    end
+    if player:HasCollectible(mod.Items.Zepar) == true then
+        if offender:IsVulnerableEnemy() == true then
+            if math.random(1,10) == 1 then
+                local zepar_tear = player:FireTear(offender.Position, Vector.Zero, true, true, false, nil, 0):ToTear()
+                zepar_tear:AddTearFlags(TearFlags.TEAR_PUNCH)
+            end
         end
     end
 end
@@ -519,6 +568,7 @@ function mod:NewRoom()
         local tempEffects = player:GetEffects()
 
         tear_count_room = 0
+        beleth_brimstone = 0
 
         if player:HasCollectible(mod.Items.Bael) == true then
 
@@ -528,10 +578,11 @@ function mod:NewRoom()
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM,mod.NewRoom)
 
---Bael
+--Bael, Barbatos, Beleth
 function mod:Tear(tear)
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
+        tear:ToTear()
 
         if player:HasCollectible(mod.Items.Bael) == true and tear_count_room == 0 then
             tear:AddTearFlags(TearFlags.TEAR_LIGHT_FROM_HEAVEN)
@@ -539,40 +590,88 @@ function mod:Tear(tear)
 
             tear_count_room = 1
         end
+        if player:HasCollectible(mod.Items.Barbatos) == true then
+            tear.Scale = tear.Scale + 0.15
+        end
+        if player:HasCollectible(mod.Items.Beleth) == true then
+            beleth_brimstone = beleth_brimstone + 1
+            if beleth_brimstone == 10 then
+                local beleth_brimstone_fire = player:FireBrimstone(mod:DirectionToVector(player:GetHeadDirection(), 1), nil, 0.5)
+                beleth_brimstone_fire.Color = Color(255/255, 255/255, 255/255, 1.0, 100/255, 255/255, 255/255)
+                beleth_brimstone = 0
+            end
+        end
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, mod.Tear)
 
---Samigina, Amon
+--Samigina, Amon, Barbatos, Paimon
 function mod:PercUpdate(player)
-    if player:IsFrame(10, 0) then
-        if player:HasCollectible(mod.Items.Samigina) == true and math.random(1,15) == 1 then
+    if player:HasCollectible(mod.Items.Samigina) == true and math.random(1,15) == 1 then
+        if player:IsFrame(10, 0) then
             player:FireTechLaser(player.Position, 1, mod:DirectionToVector(player:GetHeadDirection(), 1), false, false, nil, 0.75)
             local samigina_tear = player:FireTear(player.Position, mod:DirectionToVector(player:GetHeadDirection(), player.ShotSpeed*10), true, true, false, nil, 1.25):ToTear()
             samigina_tear:AddTearFlags(TearFlags.TEAR_SHIELDED | TearFlags.TEAR_LASER | TearFlags.TEAR_ATTRACTOR)
             samigina_tear.Color = Color(0/255, 50/255, 50/255, 1.0, 155/255, 0/255, 0/255)
             samigina_tear:Update()
         end
-        if player:HasCollectible(mod.Items.Amon) == true and math.random(1,15) == 1 then
+    end
+    if player:HasCollectible(mod.Items.Amon) == true and math.random(1,15) == 1 then
+            if player:IsFrame(10, 0) then
             local amon_flame = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, player.Position, mod:DirectionToVector(player:GetHeadDirection(), player.ShotSpeed*10), nil)
             amon_flame.Color = Color(0/255, 0/255, 0/255, 1.0, 132/255, 33/255, 189/255)
             amon_flame.CollisionDamage = player.Damage
             amon_flame:Update()
         end
     end
+    if player:HasCollectible(mod.Items.Barbatos) == true and math.random(1,30) == 1 then
+        if player:IsFrame(10, 0) then
+            local barbatos_tear = player:FireTear(player.Position, mod:DirectionToVector(player:GetHeadDirection(), player.ShotSpeed*15), true, true, false, nil, 1.25):ToTear()
+            barbatos_tear.CollisionDamage = 99
+            barbatos_tear:AddTearFlags(TearFlags.TEAR_SHIELDED | TearFlags.TEAR_EXTRA_GORE)
+            barbatos_tear.Color = Color(0/255, 0/255, 0/255, 1.0, 100/255, 100/255, 100/255)
+            barbatos_tear:Update()
+        end
+    end
+    if player:HasCollectible(mod.Items.Paimon) == true and math.random(1,30) == 1 then
+        if player:IsFrame(10, 0) then
+            if player:HasCollectible(CollectibleType.COLLECTIBLE_XRAY_VISION) == false then
+                player:AddCollectible(CollectibleType.COLLECTIBLE_XRAY_VISION)
+                local itemConfig = Isaac.GetItemConfig()
+                local itemConfigItem = itemConfig:GetCollectible(CollectibleType.COLLECTIBLE_XRAY_VISION)
+                player:RemoveCostume(itemConfigItem)
+            end
+        end
+    end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.PercUpdate)
 
---Marbas
+--Marbas, Gusion, Sitri
 function mod:TearCollide(tear, victim)
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
 
-        if player:HasCollectible(mod.Items.Marbas) == true and math.random(1,100) then
+        if player:HasCollectible(mod.Items.Marbas) == true and math.random(1,100) == 1 then
             if victim:IsVulnerableEnemy() == true and victim.Type ~= EntityType.ENTITY_FLY then
                 if victim:IsBoss() == false then
                     victim:ToNPC():Morph(EntityType.ENTITY_FLY, 0, 0, 0)
                     Isaac.Spawn(EntityType.ENTITY_FLY, 0, 0, victim.Position, Vector(0,0), nil)
+                end
+            end
+        end
+        if player:HasCollectible(mod.Items.Gusion) == true and math.random(1,10) == 1 then
+            if victim:IsVulnerableEnemy() == true then
+                if victim:IsBoss() == false then
+                    victim:AddFreeze(EntityRef(player), 999)
+                end
+            end
+        end
+        if player:HasCollectible(mod.Items.Sitri) == true and math.random(1,5) == 1 then
+            if victim:IsVulnerableEnemy() == true then
+                if victim:IsBoss() == false then
+                    victim:AddCharmed(EntityRef(player), 999)
+                    local pink_cloud = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, victim.Position, Vector(0,0), nil)
+                    pink_cloud.Color = Color(180/255, 180/255, 180/255, 1.0, 296/255, 52/255, 91/255)
                 end
             end
         end
@@ -595,6 +694,30 @@ itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player,
     end
 end, mod.Items.Valefor)
 
+--Paimon
+itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player, item, count, touched, fromQueue)
+    if not touched or not fromQueue then
+        for i=1,count do
+            local pos = Game():GetRoom():FindFreePickupSpawnPosition(player.Position, 0, true)
+
+            local paimon_shady_1 = Isaac.Spawn(EntityType.ENTITY_SHADY, 0, 0, player.Position, Vector(0,0), nil):ToNPC()
+            paimon_shady_1:AddCharmed(EntityRef(player), -1)
+            paimon_shady_1.MaxHitPoints = 9999999999
+            paimon_shady_1.HitPoints = 9999999999
+            paimon_shady_1:Update()
+
+            local paimon_shady_2 = Isaac.Spawn(EntityType.ENTITY_SHADY, 0, 0, player.Position, Vector(0,0), nil):ToNPC()
+            paimon_shady_2:AddCharmed(EntityRef(player), -1)
+            paimon_shady_2.MaxHitPoints = 9999999999
+            paimon_shady_2.HitPoints = 9999999999
+            paimon_shady_2:Update()
+
+
+            local newdevil = itempool:GetCollectible(ItemPoolType.POOL_DEVIL, true, Random(), CollectibleType.COLLECTIBLE_MARK)
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newdevil, player.Position, Vector(0,0), nil)
+        end
+    end
+end, mod.Items.Paimon)
 ----Welcome to the Item Descriptions. This section holds everything to do with the mod's compatibility with External Item Descriptions and Encyclopedia.
 --Startup
 

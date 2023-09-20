@@ -10,4 +10,12 @@
 	<costume id ="9" anm2path="bael.anm2" priority="3" type="passive"/>
 	<costume id ="10" anm2path="vassago.anm2" priority="1" type="passive"/>
 	<costume id ="11" anm2path="samigina.anm2" priority="2" isFlying="true" type="passive"/>
+	<costume id ="12" anm2path="marbas.anm2" priority="5" skinColor="1" overwriteColor="true" forceHeadColor="true" forceBodyColor="true" type="passive"/>
+	<costume id ="13" anm2path="valefor.anm2" priority="1" type="passive"/>
+	<costume id ="14" anm2path="amon.anm2" priority="5" type="passive"/>
+	<costume id ="15" anm2path="barbatos.anm2" priority="4" type="passive"/>
+	<costume id ="16" anm2path="paimon.anm2" priority="1" type="passive"/>
+	<costume id ="17" anm2path="buer.anm2" priority="5" type="passive"/>
+	<costume id ="18" anm2path="gusion.anm2" priority="1" type="passive"/>
+	<costume id ="19" anm2path="sitri.anm2" priority="2" isFlying="true" type="passive"/>
 </costumes>

@@ -283,6 +283,27 @@ local tear_count_room = 0
 local beleth_brimstone = 0
 local eligos_tear_ring = 0
 
+mod.ScheduleData = {}
+function mod.Schedule(delay, func, args)
+  table.insert(mod.ScheduleData, {
+    Time = game:GetFrameCount(),
+    Delay = delay,
+    Call = func,
+    Args = args
+  })
+end
+
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
+  local time = game:GetFrameCount()
+  for i = #mod.ScheduleData, 1, -1 do
+    local data = mod.ScheduleData[i]
+    if data.Time + data.Delay <= time then
+      data.Call(table.unpack(data.Args))    
+      table.remove(mod.ScheduleData, i)
+    end
+  end
+end)
+
 mod.Items = {
 	Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
 	Mammon = Isaac.GetItemIdByName("Mammon Sigil"),
@@ -552,6 +573,24 @@ function mod:Collison(player, offender)
             end
         end
     end
+    if player:HasCollectible(mod.Items.Paimon) == true then
+        if offender:IsVulnerableEnemy() == true then
+            Isaac.Explode(player.Position, player, 50)
+            Isaac.Explode(player.Position+Vector(30,0), player, 50)
+            Isaac.Explode(player.Position-Vector(30,0), player, 50)
+
+            local paimonshock_inline = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, player.Position, Vector(0,0), nil):ToEffect()
+            paimonshock_inline.Color = Color(0/255, 0/255, 0/255, 0.5, 255/255, 0/255, 0/255)
+            paimonshock_inline.SpriteScale = paimonshock_inline.SpriteScale + Vector(1.1,1.1)
+            paimonshock_inline:Update()
+
+            local pimon = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, player.Position, Vector(0,0), nil):ToEffect()
+            pimon.Color = Color(0/255, 0/255, 0/255, 1.0, 0/255, 0/255, 0/255)
+            paimonshock_inline.SpriteScale = paimonshock_inline.SpriteScale + Vector(1,1)
+            pimon.DepthOffset = pimon.DepthOffset +100000
+            pimon:Update()
+        end
+    end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_PLAYER_COLLISION, mod.Collison)
 
@@ -722,31 +761,6 @@ itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player,
         end
     end
 end, mod.Items.Valefor)
-
---Paimon
-itemGrab:AddCallback(itemGrab.InventoryCallback.POST_ADD_ITEM, function (player, item, count, touched, fromQueue)
-    if not touched or not fromQueue then
-        for i=1,count do
-            local pos = Game():GetRoom():FindFreePickupSpawnPosition(player.Position, 0, true)
-
-            local paimon_shady_1 = Isaac.Spawn(EntityType.ENTITY_SHADY, 0, 0, player.Position, Vector(0,0), nil):ToNPC()
-            paimon_shady_1:AddCharmed(EntityRef(player), -1)
-            paimon_shady_1.MaxHitPoints = 9999999999
-            paimon_shady_1.HitPoints = 9999999999
-            paimon_shady_1:Update()
-
-            local paimon_shady_2 = Isaac.Spawn(EntityType.ENTITY_SHADY, 0, 0, player.Position, Vector(0,0), nil):ToNPC()
-            paimon_shady_2:AddCharmed(EntityRef(player), -1)
-            paimon_shady_2.MaxHitPoints = 9999999999
-            paimon_shady_2.HitPoints = 9999999999
-            paimon_shady_2:Update()
-
-
-            local newdevil = itempool:GetCollectible(ItemPoolType.POOL_DEVIL, true, Random(), CollectibleType.COLLECTIBLE_MARK)
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newdevil, player.Position, Vector(0,0), nil)
-        end
-    end
-end, mod.Items.Paimon)
 ----Welcome to the Item Descriptions. This section holds everything to do with the mod's compatibility with External Item Descriptions and Encyclopedia.
 --Startup
 
@@ -787,6 +801,22 @@ if EID then
 	EID:addCollectible(mod.Items.Belzebub, mod.description.Belzebub)
 	EID:addCollectible(mod.Items.Agares, mod.description.Agares)
 	EID:addCollectible(mod.Items.Belphegor, mod.description.Belphegor)
+    EID:addCollectible(mod.Items.Bael, mod.description.Bael)
+	EID:addCollectible(mod.Items.Vassago, mod.description.Vassago)
+	EID:addCollectible(mod.Items.Samigina, mod.description.Samigina)
+	EID:addCollectible(mod.Items.Marbas, mod.description.Marbas)
+	EID:addCollectible(mod.Items.Valefor, mod.description.Valefor)
+	EID:addCollectible(mod.Items.Amon, mod.description.Amon)
+	EID:addCollectible(mod.Items.Barbatos, mod.description.Barbatos)
+	EID:addCollectible(mod.Items.Paimon, mod.description.Paimon)
+	EID:addCollectible(mod.Items.Buer, mod.description.Buer)
+	EID:addCollectible(mod.Items.Gusion, mod.description.Gusion)
+	EID:addCollectible(mod.Items.Sitri, mod.description.Sitri)
+	EID:addCollectible(mod.Items.Beleth, mod.description.Beleth)
+	EID:addCollectible(mod.Items.Leraje, mod.description.Leraje)
+	EID:addCollectible(mod.Items.Eligos, mod.description.Eligos)
+    EID:addCollectible(mod.Items.Zepar, mod.description.Zepar)
+	EID:addCollectible(mod.Items.Botis, mod.description.Botis)
 end
 
 --Encyclopedia documentation found here: https://github.com/AgentCucco/encyclopedia-docs/wiki.

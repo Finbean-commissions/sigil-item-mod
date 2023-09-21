@@ -283,27 +283,6 @@ local tear_count_room = 0
 local beleth_brimstone = 0
 local eligos_tear_ring = 0
 
-mod.ScheduleData = {}
-function mod.Schedule(delay, func, args)
-  table.insert(mod.ScheduleData, {
-    Time = game:GetFrameCount(),
-    Delay = delay,
-    Call = func,
-    Args = args
-  })
-end
-
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function()
-  local time = game:GetFrameCount()
-  for i = #mod.ScheduleData, 1, -1 do
-    local data = mod.ScheduleData[i]
-    if data.Time + data.Delay <= time then
-      data.Call(table.unpack(data.Args))    
-      table.remove(mod.ScheduleData, i)
-    end
-  end
-end)
-
 mod.Items = {
 	Lucifer = Isaac.GetItemIdByName("Lucifer Sigil"),
 	Mammon = Isaac.GetItemIdByName("Mammon Sigil"),
@@ -780,7 +759,7 @@ mod.description = {
     Valefor = "Magnetic tears#Spawn a friendly immortal Whipper",
     Amon = "Often fire a purple flame that rarely charms enemies",
     Barbatos = "{{ArrowDown}} -50% Firerate#Sometimes fire a bullet tear that kills the enemy hit instantly#When first hit in a room, summon a Dead Bird",
-    Paimon = "Reveals secret rooms#Spawns two friendly immortal Shadies#Spawns a random devil room item",
+    Paimon = "Reveals secret rooms#verytime you get collided with by an enemy, spawns an explosion#Spawns a random devil room item",
     Buer = "{{ArrowUp}} +1 Red heart#{{ArrowUp}} +0.4 Speed#{{ArrowUp}} +0.4 Tears# {{ArrowDown}} -3 Range",
     Gusion  = "{{ArrowUp}} +1 Red heart#{{ArrowUp}} +0.2 Tears#Tears now stun enemies for 5 seconds",
     Sitri = "Flight#Sometimes fire charming tears that explode into a pink cloud",

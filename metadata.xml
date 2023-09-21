@@ -9,7 +9,7 @@ Adds 24 new items based in the Ars Goetla sigils.
 Credits:
 	Oatmealine - Firerate to Tears function
 	TheCatWizard - Item pickup callback</description>
-    <version>2.1</version>
+    <version>2.2</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>

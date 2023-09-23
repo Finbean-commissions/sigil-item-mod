@@ -435,10 +435,13 @@ function mod:Death(victim)
 	for playerNum = 1, game:GetNumPlayers() do
         local player = game:GetPlayer(playerNum)
 		if player:HasCollectible(mod.Items.Mammon) == true then
-			if victim:IsVulnerableEnemy() == true then
-				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, victim.Position, Vector(0,0), nil)
+			if victim:IsEnemy() == true then
+				Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_PENNY, victim.Position, Vector(0,0), nil)
+                print("3")
 			end
+            print("2")
 		end
+        print("1")
 	end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH,mod.Death)

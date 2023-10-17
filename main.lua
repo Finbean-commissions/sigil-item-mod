@@ -352,6 +352,11 @@ function mod:CacheEvaluation(player, cacheFlag)
 			player.Damage = player.Damage + 5 * player:GetCollectibleNum(mod.Items.Satan, true)
 		end
 	end
+	if player:HasCollectible(mod.Items.Asmodeus) == true then
+		if cacheFlag == CacheFlag.CACHE_SPEED then
+			player.MoveSpeed = 2
+		end
+	end
 	if player:HasCollectible(mod.Items.Belzebub) == true then
 		if cacheFlag == CacheFlag.CACHE_COLOR then
 			player.Color = Color(73/255, 133/255, 41/255, 1.0, 0/255, 0/255, 0/255)

@@ -3,7 +3,7 @@
 	<passive id="2" name="Mammon Sigil" description="Cobweb tears" gfx="mammon.png" cache="tearcolor tearflag" quality="3" devilprice="1"/>
 	<passive id="3" name="Satan Sigil" description="Devil up" gfx="satan.png" cache="damage" quality="4" devilprice="2"/>
 	<passive id="4" name="Abbadon Sigil" description="From foe to friend" gfx="abbadon.png" quality="3" devilprice="1"/>
-	<passive id="5" name="Asmodeus Sigil" description="Let's take a step back..." gfx="asmodeus.png" quality="3" devilprice="1"/>
+	<passive id="5" name="Asmodeus Sigil" description="Let's take a step back..." gfx="asmodeus.png" quality="3" cache="speed" devilprice="1"/>
 	<passive id="6" name="Beelzebub Sigil" description="Become the lord of the flies" gfx="belzebub.png" cache="color tearflag" quality="3" devilprice="1"/>
 	<passive id="7" name="Agares Sigil" description="Feel the chill." gfx="agares.png" quality="2" devilprice="1"/>
 	<passive id="8" name="Belphegor Sigil" description="Ultimate power!!!" gfx="belphegor.png" quality="4" devilprice="2"/>

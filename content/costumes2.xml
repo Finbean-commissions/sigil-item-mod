@@ -3,7 +3,8 @@
 	<costume id ="2" anm2path="mammon.anm2" priority="3" type="passive"/>
 	<costume id ="3" anm2path="satan.anm2" priority="5" skinColor="1" overwriteColor="true" forceHeadColor="true" forceBodyColor="true" type="passive"/>
 	<costume id ="4" anm2path="abbadon.anm2" priority="1" type="passive"/>
-	<costume id ="6" anm2path="asmodeus.anm2" priority="2" type="passive"/>
+	<costume id ="5" anm2path="asmodeus.anm2" priority="2" type="passive"/>
+	
 	<costume id ="7" anm2path="agares.anm2" priority="1" type="passive"/>
 	<costume id ="8" anm2path="belphegor.anm2" priority="2" type="passive"/>
 
